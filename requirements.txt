@@ -8,4 +8,4 @@ requests
 beautifulsoup4
 python-dotenv
 gradio_client
-
+python-multipart
