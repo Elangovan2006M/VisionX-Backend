@@ -1,0 +1,15 @@
+fastapi
+uvicorn[standard]
+firebase-admin
+requests
+python-multipart
+pillow
+cloudinary
+openai
+gTTS
+vosk
+pydantic
+tensorflow
+pandas
+torch
+torchvision
