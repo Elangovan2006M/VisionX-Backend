@@ -23,7 +23,15 @@ KERALA_CITIES = [
     "Mannarkkad", "Erattupetta", "Sreekandapuram", "Angamaly", "Chittur-Thathamangalam", "Kalpetta",
     "North Paravur", "Haripad", "Muvattupuzha", "Kottarakara", "Kuthuparamba", "Adoor", "Pattambi", "Anthoor",
     "Perumbavoor", "Piravom", "Ettumanoor", "Mavelikkara", "Eloor", "Chengannur", "Vaikom", "Aluva", "Pala",
-    "Koothattukulam"
+    "Koothattukulam","Chennai", "Coimbatore", "Madurai", "Tiruchirappalli", "Salem", "Tiruppur", "Erode", "Vellore", "Dindigul", "Thanjavur",
+    "Thoothukkudi", "Tirunelveli", "Nagercoil", "Ambattur", "Avadi", "Tiruvottiyur", "Pallavaram", "Tambaram", "Kanchipuram",
+    "Cuddalore", "Alandur", "Pudukkottai", "Hosur", "Ambur", "Karaikkudi", "Neyveli", "Nagapattinam", "Rajapalayam",
+    "Kurichi", "Madavaram", "Perambalur", "Manachanallur", "Manapakkam", "Mettupalayam", "Mettur", "Muthur", "Muthupet",
+    "Musiri", "Nagercoil", "Nandambakkam", "Nellikuppam", "Neyveli", "Neyyattinkara", "Omalur", "Ooty", "Palladam", "Pallapalayam",
+    "Perambalur", "Perundurai", "Pollachi", "Pudukkottai", "Ramanathapuram", "Rameswaram", "Rishivandiyam", "Sankarankovil",
+    "Sathyamangalam", "Sholinghur", "Sholavandan", "Sivakasi", "Sivaganga", "Sivagiri", "Srirangam", "Sriperumbudur", "Tenkasi",
+    "Tiruchendur", "Tirumangalam", "Tirupathur", "Tirupur", "Tiruvannamalai", "Tiruvottiyur", "Tiruvallur", "Udhagamandalam",
+    "Udumalaipettai", "Vandavasi", "Vedaranyam", "Vellore", "Vikramasingapuram", "Viluppuram", "Virudhunagar", "Vedaranyam"
 ]
 
 # Config

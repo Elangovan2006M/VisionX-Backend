@@ -15,4 +15,8 @@ async def ask_farming_assistant(
     - General queries -> LLM
     """
     result = await handle_farmer_query(query, image=image)
+
+    # 🔍 Log the response before returning
+    print("Sending response to frontend:", result)
+
     return result
