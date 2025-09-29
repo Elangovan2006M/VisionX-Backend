@@ -10,16 +10,22 @@ client = Client(TRANSLATE_SPACE)
 
 async def translate_text(text: str, tgt_lang: str) -> str:
     """
-    Translate text between English and Malayalam using UNESCO/nllb Hugging Face Space.
+    Translate text between English, Malayalam, and Tamil using UNESCO/nllb Hugging Face Space.
     - text: input string
-    - tgt_lang: target language ("English" or "Malayalam")
-    - Source language is auto-detected based on target (only 2 languages supported)
+    - tgt_lang: target language ("English", "Malayalam", "Tamil")
+    - Source language is auto-detected based on target (3 languages supported)
     """
     if not text.strip():
         return text
 
     # Decide source automatically
-    src_lang = "Malayalam" if tgt_lang == "English" else "English"
+    src_lang = (
+        "Malayalam"
+        if tgt_lang == "English"
+        else "Tamil"
+        if tgt_lang == "English"
+        else "English"
+    )
 
     loop = asyncio.get_event_loop()
     try:
@@ -40,10 +46,13 @@ async def translate_text(text: str, tgt_lang: str) -> str:
 
 def simple_detect_language(text: str) -> str:
     """
-    Very lightweight detection: 
+    Very lightweight detection:
     - If Malayalam Unicode range is found → 'Malayalam'
+    - If Tamil Unicode range is found → 'Tamil'
     - Else default to 'English'
     """
     if any("\u0D00" <= ch <= "\u0D7F" for ch in text):
         return "Malayalam"
+    if any("\u0B80" <= ch <= "\u0BFF" for ch in text):
+        return "Tamil"
     return "English"

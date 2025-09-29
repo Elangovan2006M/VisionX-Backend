@@ -10,7 +10,9 @@ from app.services.translate_service import translate_text, simple_detect_languag
 import asyncio
 
 
-KERALA_CITIES = [
+# Combined list of major Kerala + Tamil Nadu cities
+CITIES = [
+    # Kerala cities
     "Thiruvananthapuram", "Kozhikode", "Kochi", "Kollam", "Thrissur", "Kannur", "Alappuzha", "Kottayam", "Palakkad",
     "Manjeri", "Thalassery", "Thrippunithura", "Ponnani", "Vatakara", "Kanhangad", "Payyanur", "Koyilandy",
     "Parappanangadi", "Kalamassery", "Kodungallur", "Neyyattinkara", "Tanur", "Kayamkulam", "Malappuram",
@@ -23,15 +25,19 @@ KERALA_CITIES = [
     "Mannarkkad", "Erattupetta", "Sreekandapuram", "Angamaly", "Chittur-Thathamangalam", "Kalpetta",
     "North Paravur", "Haripad", "Muvattupuzha", "Kottarakara", "Kuthuparamba", "Adoor", "Pattambi", "Anthoor",
     "Perumbavoor", "Piravom", "Ettumanoor", "Mavelikkara", "Eloor", "Chengannur", "Vaikom", "Aluva", "Pala",
-    "Koothattukulam","Chennai", "Coimbatore", "Madurai", "Tiruchirappalli", "Salem", "Tiruppur", "Erode", "Vellore", "Dindigul", "Thanjavur",
-    "Thoothukkudi", "Tirunelveli", "Nagercoil", "Ambattur", "Avadi", "Tiruvottiyur", "Pallavaram", "Tambaram", "Kanchipuram",
-    "Cuddalore", "Alandur", "Pudukkottai", "Hosur", "Ambur", "Karaikkudi", "Neyveli", "Nagapattinam", "Rajapalayam",
-    "Kurichi", "Madavaram", "Perambalur", "Manachanallur", "Manapakkam", "Mettupalayam", "Mettur", "Muthur", "Muthupet",
-    "Musiri", "Nagercoil", "Nandambakkam", "Nellikuppam", "Neyveli", "Neyyattinkara", "Omalur", "Ooty", "Palladam", "Pallapalayam",
-    "Perambalur", "Perundurai", "Pollachi", "Pudukkottai", "Ramanathapuram", "Rameswaram", "Rishivandiyam", "Sankarankovil",
-    "Sathyamangalam", "Sholinghur", "Sholavandan", "Sivakasi", "Sivaganga", "Sivagiri", "Srirangam", "Sriperumbudur", "Tenkasi",
-    "Tiruchendur", "Tirumangalam", "Tirupathur", "Tirupur", "Tiruvannamalai", "Tiruvottiyur", "Tiruvallur", "Udhagamandalam",
-    "Udumalaipettai", "Vandavasi", "Vedaranyam", "Vellore", "Vikramasingapuram", "Viluppuram", "Virudhunagar", "Vedaranyam"
+    "Koothattukulam",
+
+    # Tamil Nadu cities
+    "Chennai", "Coimbatore", "Madurai", "Tiruchirappalli", "Salem", "Tiruppur", "Erode", "Vellore", "Dindigul",
+    "Thanjavur", "Thoothukkudi", "Tirunelveli", "Nagercoil", "Ambattur", "Avadi", "Tiruvottiyur", "Pallavaram",
+    "Tambaram", "Kanchipuram", "Cuddalore", "Alandur", "Pudukkottai", "Hosur", "Ambur", "Karaikkudi", "Neyveli",
+    "Nagapattinam", "Rajapalayam", "Kurichi", "Madavaram", "Perambalur", "Manachanallur", "Manapakkam",
+    "Mettupalayam", "Mettur", "Muthur", "Muthupet", "Musiri", "Nandambakkam", "Nellikuppam", "Omalur",
+    "Ooty", "Palladam", "Pallapalayam", "Perundurai", "Pollachi", "Ramanathapuram", "Rameswaram",
+    "Rishivandiyam", "Sankarankovil", "Sathyamangalam", "Sholinghur", "Sholavandan", "Sivakasi", "Sivaganga",
+    "Sivagiri", "Srirangam", "Sriperumbudur", "Tenkasi", "Tiruchendur", "Tirumangalam", "Tirupathur",
+    "Tiruvannamalai", "Tiruvallur", "Udhagamandalam", "Udumalaipettai", "Vandavasi", "Vedaranyam", "Vikramasingapuram",
+    "Viluppuram", "Virudhunagar"
 ]
 
 # Config
@@ -65,11 +71,11 @@ async def query_llm(messages: list, model: str = None, retries: int = 2) -> str:
 # Extract city name
 async def extract_city_from_query(query: str) -> str:
     words = re.findall(r'\w+', query)
-    matches = difflib.get_close_matches(' '.join(words), KERALA_CITIES, n=1, cutoff=0.6)
+    matches = difflib.get_close_matches(' '.join(words), CITIES, n=1, cutoff=0.6)
     if matches:
         return matches[0]
     for word in words:
-        matches = difflib.get_close_matches(word, KERALA_CITIES, n=1, cutoff=0.7)
+        matches = difflib.get_close_matches(word, CITIES, n=1, cutoff=0.7)
         if matches:
             return matches[0]
     return "Kerala"
@@ -78,11 +84,11 @@ async def extract_city_from_query(query: str) -> str:
 async def handle_farmer_query(query: str = None, image: UploadFile = None):
     response_data = None
 
-    # 📝 Detect user language
+    # 📝 Detect user language (English / Malayalam / Tamil)
     if query:
         user_lang = simple_detect_language(query)
-        # Translate query if Malayalam → English (LLM works best in English internally)
-        query_en = await translate_text(query, "English") if user_lang == "Malayalam" else query
+        # Translate if Malayalam or Tamil → English (LLM works best in English internally)
+        query_en = await translate_text(query, "English") if user_lang in ["Malayalam", "Tamil"] else query
     else:
         user_lang = "English"
         query_en = None
